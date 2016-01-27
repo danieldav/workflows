@@ -2,6 +2,7 @@ var gulp = require('gulp'),
   gutil = require('gulp-util'),
   coffee = require('gulp-coffee'),
   browserify = require('gulp-browserify'),
+  compass = require('gulp-compass'),
   concat = require('gulp-concat');
 
 var jsSources = ['components/scripts/rclick.js',
@@ -21,4 +22,16 @@ gulp.task('js', function() {
   .pipe(concat('script.js'))
   .pipe(browserify())
   .pipe(gulp.dest('builds/development/js'))
+});
+
+gulp.task('compass', function() {
+  gulp.src('components/sass/**/*.scss')
+    .pipe(compass({
+      sass: 'components/sass',
+      image: 'builds/development/images',
+      style: 'expanded'
+    })
+    .on('error', gutil.log))
+    .pipe(gulp.dest('builds/development/css'))
+
 });
